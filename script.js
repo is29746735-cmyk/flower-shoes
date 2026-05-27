@@ -307,6 +307,63 @@
     });
   }
 
+  /* ===== 예약 폼 제출 ===== */
+  var rsvForm = document.getElementById("rsvForm");
+  if (rsvForm) {
+    rsvForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var fd = new FormData(rsvForm);
+      var note = document.getElementById("rsvFormNote");
+      var noteText = (fd.get("notes") || "").toString().trim();
+      var msg =
+        "[꽃신 예약 문의]\n" +
+        "성함: " + fd.get("name") + "\n" +
+        "인원: " + fd.get("people") + "명\n" +
+        "일자: " + fd.get("date") + "\n" +
+        "시간: " + fd.get("time") + "\n" +
+        "연락처: " + fd.get("phone") +
+        (noteText ? "\n요청: " + noteText : "");
+
+      var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+      var phone = "0334354885";
+
+      if (isMobile) {
+        // 모바일: SMS 앱 열기
+        var sep = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? "&" : "?";
+        var url = "sms:" + phone + sep + "body=" + encodeURIComponent(msg);
+        window.location.href = url;
+        if (note) { note.textContent = "메시지 앱이 열리면 보내기 버튼을 눌러 주세요."; note.className = "rsv-note ok"; }
+      } else {
+        // PC: 클립보드 복사 + 안내
+        var done = function () {
+          if (note) {
+            note.textContent = "✓ 예약 내용이 복사되었습니다. 033-435-4885 로 전화하시거나 카톡으로 붙여넣어 보내주세요.";
+            note.className = "rsv-note ok";
+          }
+        };
+        var fail = function () {
+          if (note) {
+            note.textContent = "복사가 안 됐어요. 033-435-4885 로 직접 전화 주시거나 카톡으로 문의해 주세요.";
+            note.className = "rsv-note err";
+          }
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(msg).then(done, fail);
+        } else {
+          // 폴백 — textarea 만들어 복사
+          var ta = document.createElement("textarea");
+          ta.value = msg;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand("copy"); done(); } catch (err) { fail(); }
+          document.body.removeChild(ta);
+        }
+      }
+    });
+  }
+
   /* ===== 스크롤 등장 애니메이션 ===== */
   function attachReveal() {
     var revealEls = document.querySelectorAll(".reveal");

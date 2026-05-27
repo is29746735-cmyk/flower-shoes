@@ -585,6 +585,159 @@ h1, h2, h3 {
   line-height: 1.85;
 }
 
+/* ===== 예약 ===== */
+.reservation { background: var(--bg); }
+.rsv-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  max-width: 1080px;
+  margin: 0 auto;
+  border: 1px solid var(--divider);
+}
+@media (min-width: 860px) {
+  .rsv-grid { grid-template-columns: 1fr 1.1fr; }
+}
+.rsv-call,
+.rsv-form {
+  padding: clamp(36px, 5vw, 56px);
+}
+.rsv-call {
+  background: var(--ink);
+  color: #fff;
+}
+@media (min-width: 860px) {
+  .rsv-form { border-left: 1px solid var(--divider); }
+}
+.rsv-eyebrow {
+  font-family: "Inter", var(--sans);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+.rsv-title {
+  font-family: var(--sans);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+.rsv-desc {
+  font-size: .98rem;
+  line-height: 1.7;
+  opacity: 0.85;
+  margin-bottom: 28px;
+}
+
+/* 좌측 — 전화 CTA 영역 (다크) */
+.rsv-call .rsv-eyebrow { color: rgba(255, 255, 255, 0.6); opacity: 1; }
+.rsv-call .rsv-title { color: #fff; }
+.rsv-call .rsv-desc { color: rgba(255, 255, 255, 0.75); }
+.rsv-call-btn {
+  background: #fff !important;
+  color: var(--ink) !important;
+  font-size: 1.18rem;
+  font-weight: 700;
+  padding: 18px 28px;
+  letter-spacing: -0.01em;
+}
+.rsv-call-btn:hover { background: #f3f1ec !important; color: var(--ink) !important; }
+.rsv-call-btn::after { content: ""; }
+.rsv-info {
+  list-style: none;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rsv-info li {
+  font-size: .9rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.5;
+  padding-left: 18px;
+  position: relative;
+}
+.rsv-info li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.55em;
+  width: 8px; height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+}
+.rsv-info strong {
+  color: #fff;
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+/* 우측 — 폼 영역 */
+.rsv-form { background: var(--bg); display: flex; flex-direction: column; gap: 16px; }
+.rsv-row {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 14px;
+}
+.rsv-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  letter-spacing: -0.01em;
+}
+.rsv-form input,
+.rsv-form textarea {
+  padding: 12px 14px;
+  border: 1px solid var(--divider);
+  border-radius: 0;
+  font-family: inherit;
+  font-size: .96rem;
+  color: var(--ink);
+  background: #fff;
+  transition: border-color .15s ease;
+}
+.rsv-form input:focus,
+.rsv-form textarea:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+.rsv-form textarea {
+  resize: vertical;
+  min-height: 70px;
+  line-height: 1.5;
+  font-family: inherit;
+}
+.rsv-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.rsv-actions .btn {
+  flex: 1 1 auto;
+  justify-content: center;
+}
+.rsv-note {
+  font-size: .86rem;
+  color: var(--accent);
+  margin-top: 4px;
+  min-height: 1.2em;
+  letter-spacing: -0.01em;
+}
+.rsv-note.ok { color: #2e6a3a; }
+.rsv-note.err { color: #b75050; }
+
+@media (max-width: 480px) {
+  .rsv-row { grid-template-columns: 1fr; }
+}
+
 /* ===== 오시는 길 ===== */
 .visit { background: var(--bg); }
 .visit-grid {
