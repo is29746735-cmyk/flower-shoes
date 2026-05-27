@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>꽃신 · 관리자 페이지</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <!-- 비밀번호 게이트 -->
+  <div class="gate" id="gate">
+    <form class="gate-card" id="gateForm" autocomplete="off">
+      <h1>꽃신 관리자</h1>
+      <p>관리자 비밀번호를 입력해 주세요.</p>
+      <input type="password" id="gatePw" placeholder="비밀번호" autocomplete="current-password" required />
+      <button type="submit">들어가기</button>
+      <p class="gate-hint">초기 비밀번호: <strong>kkotshin</strong> (admin.js 에서 변경 가능)</p>
+    </form>
+  </div>
+
+  <!-- 관리자 본문 -->
+  <main class="admin" id="admin" hidden>
+    <header class="admin-header">
+      <div>
+        <h1>꽃신 관리자</h1>
+        <p class="admin-sub">콘텐츠를 편집한 뒤 <strong>data.js 다운로드</strong>를 눌러 파일을 받으세요. 받은 파일로 서버의 <code>data.js</code> 를 덮어쓰면 홈페이지에 반영됩니다.</p>
+      </div>
+      <div class="admin-actions">
+        <a class="btn-link" href="index.html" target="_blank">홈페이지 미리보기 ↗</a>
+        <button class="btn-primary" id="exportBtn">data.js 다운로드</button>
+      </div>
+    </header>
+
+    <!-- 공지·이벤트 -->
+    <section class="card">
+      <header class="card-head">
+        <h2>① 공지 · 이벤트</h2>
+        <button class="btn-add" data-add="notices">+ 새 공지 추가</button>
+      </header>
+      <p class="card-note">최신 공지가 가장 위에 표시됩니다. 항목이 없으면 홈페이지에는 “곧 새로운 소식을 전해드릴게요” 안내가 표시됩니다.</p>
+      <div class="items" id="noticesItems"></div>
+    </section>
+
+    <!-- 시그니처 -->
+    <section class="card">
+      <header class="card-head">
+        <h2>② 시그니처 메뉴</h2>
+        <button class="btn-add" data-add="signatures">+ 시그니처 추가</button>
+      </header>
+      <p class="card-note">2~4개를 추천합니다. 사진을 올리려면 <code>images/</code> 폴더에 파일을 두고 경로(예: <code>images/daechu.jpg</code>)를 적어주세요.</p>
+      <div class="items" id="signaturesItems"></div>
+    </section>
+
+    <!-- 갤러리 -->
+    <section class="card">
+      <header class="card-head">
+        <h2>③ 사진 갤러리</h2>
+        <button class="btn-add" data-add="gallery">+ 사진 추가</button>
+      </header>
+      <p class="card-note">사진 파일을 <code>images/</code> 폴더에 넣고 경로를 적으면 표시됩니다. 비워두면 자리표시 색상이 보입니다.</p>
+      <div class="items" id="galleryItems"></div>
+    </section>
+
+    <!-- 메뉴 -->
+    <section class="card">
+      <header class="card-head">
+        <h2>④ 전체 메뉴</h2>
+        <button class="btn-add" data-add="menuSection">+ 카테고리 추가</button>
+      </header>
+      <p class="card-note">카테고리별로 메뉴를 추가/수정/삭제할 수 있습니다. 가격이 한 가지면 “단일 가격”에만 입력, HOT/ICE 둘 다면 두 칸 모두 입력하세요.</p>
+      <div class="menu-meta">
+        <label>메뉴 섹션 안내문<br><input type="text" id="menuNoteInput" class="full" /></label>
+      </div>
+      <div class="items" id="menuSectionsItems"></div>
+    </section>
+
+    <footer class="admin-footer">
+      <button class="btn-primary big" id="exportBtn2">data.js 다운로드</button>
+      <p>다운로드한 파일을 카페 홈페이지 폴더의 <code>data.js</code> 와 같은 이름으로 저장(덮어쓰기)하시면 홈페이지가 새 내용으로 바뀝니다.</p>
+    </footer>
+  </main>
+
+  <!-- 토스트 알림 -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="data.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

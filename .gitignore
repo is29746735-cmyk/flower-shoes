@@ -1,0 +1,24 @@
+# Claude Code 작업 폴더
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 에디터
+.vscode/
+.idea/
+*.swp
+
+# 변환 전 원본 사진 (WebP만 사용)
+images/*.jpg
+images/*.jpeg
+images/*.png
+
+# Python 캐시
+__pycache__/
+*.pyc
+
+# 로그
+*.log

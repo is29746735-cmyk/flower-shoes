@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#faf5ec" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#3f2f24" media="(prefers-color-scheme: dark)" />
+  <meta name="format-detection" content="telephone=yes" />
+  <title>꽃신 · 꽃피는 신장대리 | 홍천 전통차 카페</title>
+  <meta name="description" content="강원도 홍천읍 신장대리 마을 카페 '꽃신'. 마을관리사회적협동조합이 정성껏 달이는 전통차 한 잔. '꽃피는 신장대리'의 따뜻한 이야기." />
+  <meta property="og:title" content="꽃신 · 꽃피는 신장대리" />
+  <meta property="og:description" content="홍천 신장대리 마을 주민이 함께 가꾼 전통차 전문 카페" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="styles.css?v=20260526b" />
+</head>
+<body>
+
+  <!-- ===== 헤더 ===== -->
+  <header class="site-header" id="siteHeader">
+    <a href="#hero" class="brand" aria-label="꽃신 홈">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="40" height="40">
+          <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="24" cy="24" r="5" fill="currentColor" stroke="none" opacity="0.85"/>
+            <path d="M24 19c0-7 -3-12 0-15 3 3 0 8 0 15Z"/>
+            <path d="M24 29c0 7 -3 12 0 15 3-3 0-8 0-15Z"/>
+            <path d="M19 24c-7 0-12-3-15 0 3 3 8 0 15 0Z"/>
+            <path d="M29 24c7 0 12-3 15 0-3 3-8 0-15 0Z"/>
+            <path d="M20.5 20.5c-5-5-9-7-12-7 0 3 2 7 7 12Z"/>
+            <path d="M27.5 27.5c5 5 9 7 12 7 0-3-2-7-7-12Z"/>
+            <path d="M27.5 20.5c5-5 9-7 12-7 0 3-2 7-7 12Z"/>
+            <path d="M20.5 27.5c-5 5-9 7-12 7 0-3 2-7 7-12Z"/>
+          </g>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-name">꽃신</span>
+        <span class="brand-sub">꽃피는 신장대리</span>
+      </span>
+    </a>
+
+    <nav class="nav" id="primaryNav" aria-label="주요 메뉴">
+      <a href="#about">소개</a>
+      <a href="#signature">시그니처</a>
+      <a href="#menu">메뉴</a>
+      <a href="#gallery">갤러리</a>
+      <a href="#visit">오시는 길</a>
+    </nav>
+
+    <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="primaryNav">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ===== 히어로 — 좌(사진+로고) | 우(텍스트 패널) 분할 ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-photo" aria-hidden="true"></div>
+    <!-- 좌측 로고 박스. images/logo.png 파일을 두면 자동으로 사진이 표시됩니다 -->
+    <div class="hero-logo" aria-label="꽃신 로고">
+      <!-- SVG 로고 — 실제 글자를 사용한 깔끔한 버전 -->
+      <svg class="hero-logo-svg" viewBox="0 0 220 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- "마을 카페" 좌측 작게 -->
+        <text x="22" y="118" font-family="'Gowun Batang', serif" font-size="16" font-weight="700" fill="#fdfbf5" letter-spacing="1">마을</text>
+        <text x="22" y="140" font-family="'Gowun Batang', serif" font-size="16" font-weight="700" fill="#fdfbf5" letter-spacing="1">카페</text>
+
+        <!-- "꽃" 큰 글자 -->
+        <text x="125" y="148" font-family="'Gowun Batang', serif" font-size="106" font-weight="700" fill="#fdfbf5" text-anchor="middle" dominant-baseline="middle">꽃</text>
+
+        <!-- "신" 큰 글자 -->
+        <text x="110" y="252" font-family="'Gowun Batang', serif" font-size="106" font-weight="700" fill="#fdfbf5" text-anchor="middle" dominant-baseline="middle">신</text>
+
+        <!-- "꽃피는 신장대리" 하단 -->
+        <text x="50%" y="332" text-anchor="middle" font-family="'Gowun Batang', serif" font-size="17" font-weight="700" fill="#fdfbf5" letter-spacing="1.5">꽃피는 신장대리</text>
+      </svg>
+      <img class="hero-logo-img" src="images/logo.png" alt="꽃신 로고"
+           onload="this.classList.add('loaded');"
+           onerror="this.remove();" />
+    </div>
+
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Hongcheon · Sinjangdae-ri</p>
+      <h1 class="hero-headline">마을이 피워 올린<br/>한 잔의 차.</h1>
+      <p class="hero-desc">
+        홍천읍 신장대리 마을 주민이 함께 가꾸는 작은 전통차 카페, <strong>꽃신</strong>.
+      </p>
+      <div class="hero-actions">
+        <a href="#signature" class="btn btn-primary">Signature</a>
+        <a href="#visit" class="btn btn-secondary">Visit</a>
+      </div>
+      <ul class="hero-info" aria-label="방문 정보">
+        <li><span class="hi-key">Address</span><span class="hi-val">홍천읍 홍천로5길 10, 1층</span></li>
+        <li><span class="hi-key">Phone</span><span class="hi-val"><a href="tel:0334354885">033-435-4885</a></span></li>
+      </ul>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>아래로</span>
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </section>
+
+  <!-- ===== 공지·이벤트 ===== -->
+  <section class="section notices" id="notices" aria-label="공지와 이벤트">
+    <div class="notices-inner">
+      <div class="notices-head reveal">
+        <p class="section-label">소식 · Notice</p>
+        <h2>꽃신의 소식</h2>
+      </div>
+      <div class="notices-list" id="noticesList"></div>
+    </div>
+  </section>
+
+  <!-- ===== 소개 ===== -->
+  <section class="section about" id="about">
+    <div class="section-head reveal">
+      <p class="section-label">소개 · About</p>
+      <h2>마을이 피워 올린 한 잔의 차</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          <strong>꽃신</strong>은 <strong>‘꽃피는 신장대리’</strong>의 줄임말입니다.
+          홍천읍 신장대리 도시재생사업을 거치며, 상가만 빼곡하던 거리는
+          주민들의 손길로 꽃과 나무가 자라는 도심 정원으로 바뀌어 왔습니다.
+        </p>
+        <p>
+          꽃신은 그 변화의 한가운데에서 <strong>신장대리 마을관리사회적협동조합</strong>이
+          운영하는 마을 카페입니다. 이웃이 모이고, 오가는 손님이 쉬어 가고,
+          마을의 사계절이 차 향기로 머무는 곳이지요.
+        </p>
+        <p>
+          쌍화차와 대추차처럼 오래 달여 깊어진 전통차부터,
+          홍천 찰옥수수를 담은 라떼와 손수 우린 꽃차까지 —
+          느리게 우러나는 따뜻함을 한 잔에 담았습니다.
+        </p>
+      </div>
+      <ul class="about-points reveal">
+        <li>
+          <span class="point-title">전통차 전문</span>
+          <span class="point-desc">쌍화·대추·생강차를 정성껏 오래 달입니다</span>
+        </li>
+        <li>
+          <span class="point-title">마을이 함께 운영</span>
+          <span class="point-desc">신장대리 마을관리사회적협동조합의 마을 카페</span>
+        </li>
+        <li>
+          <span class="point-title">도시재생의 쉼표</span>
+          <span class="point-desc">꽃피는 신장대리 거리 한복판의 작은 정원</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== 시그니처 메뉴 ===== -->
+  <section class="section signature" id="signature">
+    <div class="section-head reveal">
+      <p class="section-label">시그니처 · Signature</p>
+      <h2>꽃신의 한 잔</h2>
+      <p class="section-note">꽃신의 대표 메뉴입니다</p>
+    </div>
+    <div class="signature-grid" id="signatureList"></div>
+  </section>
+
+  <!-- ===== 메뉴 ===== -->
+  <section class="section menu" id="menu">
+    <div class="section-head reveal">
+      <p class="section-label">메뉴 · Menu</p>
+      <h2>꽃신의 차림표</h2>
+      <p class="section-note" id="menuNote"></p>
+    </div>
+
+    <div class="menu-grid" id="menuGrid"></div>
+  </section>
+
+  <!-- ===== 갤러리 (슬라이드쇼) ===== -->
+  <section class="section gallery" id="gallery">
+    <div class="section-head reveal">
+      <p class="section-label">갤러리 · Gallery</p>
+      <h2>꽃신의 공간</h2>
+      <p class="section-note">카페 내부와 외부 공간</p>
+    </div>
+    <div class="gallery-slider" id="gallerySlider" tabindex="0">
+      <button class="gallery-arrow gallery-prev" id="galleryPrev" type="button" aria-label="이전 사진">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="gallery-arrow gallery-next" id="galleryNext" type="button" aria-label="다음 사진">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="gallery-viewport">
+        <div class="gallery-track" id="galleryTrack"></div>
+      </div>
+      <p class="gallery-counter" id="galleryCounter"></p>
+      <div class="gallery-dots" id="galleryDots" role="tablist" aria-label="갤러리 페이지"></div>
+    </div>
+  </section>
+
+  <!-- ===== 마을 이야기 ===== -->
+  <section class="section village" id="village">
+    <div class="section-head reveal">
+      <p class="section-label">마을 이야기 · Our Village</p>
+      <h2>꽃피는 신장대리, 그 한가운데</h2>
+    </div>
+    <div class="village-grid">
+      <div class="village-card reveal">
+        <span class="village-num">01</span>
+        <h3>회색 거리에서 도심 정원으로</h3>
+        <p>
+          아스팔트와 상가뿐이던 신장대리 거리. 주민들이 직접 정원을
+          설계하고 나무를 심어, 골목골목이 푸르게 피어나고 있습니다.
+        </p>
+      </div>
+      <div class="village-card reveal">
+        <span class="village-num">02</span>
+        <h3>나무와 숲을 품은 동네</h3>
+        <p>
+          홍천 숲의 가치를 읍내로 — 도심 정원과 목재 정원박람회가
+          어우러진, 나무를 테마로 한 마을 재생 이야기가 이어집니다.
+        </p>
+      </div>
+      <div class="village-card reveal">
+        <span class="village-num">03</span>
+        <h3>주민이 함께 가꾸는 카페</h3>
+        <p>
+          꽃신은 마을관리사회적협동조합의 마을 카페입니다.
+          차 한 잔의 수익이 다시 마을의 꽃과 나무로 돌아갑니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 오시는 길 ===== -->
+  <section class="section visit" id="visit">
+    <div class="section-head reveal">
+      <p class="section-label">오시는 길 · Visit</p>
+      <h2>꽃신에 들러 주세요</h2>
+    </div>
+    <div class="visit-grid">
+      <ul class="visit-info reveal">
+        <li>
+          <span class="visit-key">주소</span>
+          <span class="visit-val">강원도 홍천군 홍천읍 홍천로5길 10, 1층</span>
+        </li>
+        <li>
+          <span class="visit-key">전화</span>
+          <span class="visit-val"><a href="tel:0334354885">033-435-4885</a></span>
+        </li>
+        <li>
+          <span class="visit-key">영업시간</span>
+          <span class="visit-val">안내 준비 중 — 방문 전 전화로 확인해 주세요</span>
+        </li>
+        <li>
+          <span class="visit-key">찾아오기</span>
+          <span class="visit-val">
+            <a href="https://map.naver.com/p/search/홍천%20꽃신%20홍천로5길%2010" target="_blank" rel="noopener">네이버 지도에서 보기</a>
+            ·
+            <a href="https://map.kakao.com/?q=홍천군 홍천읍 홍천로5길 10" target="_blank" rel="noopener">카카오맵에서 보기</a>
+          </span>
+        </li>
+      </ul>
+      <div class="visit-map reveal">
+        <a class="map-link" href="https://map.naver.com/p/search/홍천%20꽃신%20홍천로5길%2010" target="_blank" rel="noopener" aria-label="네이버 지도에서 꽃신 위치 보기">
+          <div class="map-pin">
+            <svg viewBox="0 0 24 24" width="34" height="34"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" fill="currentColor"/></svg>
+          </div>
+          <p class="map-name">전통차 카페 꽃신</p>
+          <p class="map-addr">홍천읍 홍천로5길 10, 1층</p>
+          <span class="map-cta">지도 열기</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 푸터 ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-name">꽃신</span>
+        <span class="brand-sub">꽃피는 신장대리</span>
+      </div>
+      <div class="footer-meta">
+        <p>전통차 전문 카페 · 신장대리 마을관리사회적협동조합</p>
+        <p>강원도 홍천군 홍천읍 홍천로5길 10, 1층 · 033-435-4885</p>
+      </div>
+      <p class="footer-copy">© 2026 꽃신 (꽃피는 신장대리). All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- 사진 라이트박스 (갤러리 사진을 클릭하면 크게 표시) -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="사진 크게 보기">
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="닫기">×</button>
+    <img class="lightbox-img" id="lightboxImg" alt="" />
+    <p class="lightbox-cap" id="lightboxCap"></p>
+  </div>
+
+  <script src="data.js?v=20260526b"></script>
+  <script src="script.js?v=20260526b"></script>
+</body>
+</html>
