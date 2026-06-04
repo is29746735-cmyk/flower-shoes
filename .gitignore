@@ -22,3 +22,5 @@ __pycache__/
 
 # 로그
 *.log
+
+.vercel
