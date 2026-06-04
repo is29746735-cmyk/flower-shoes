@@ -136,6 +136,7 @@ code {
   padding: 22px 24px;
   box-shadow: var(--shadow);
   margin-bottom: 22px;
+  overflow: hidden;
 }
 .card-head {
   display: flex;
@@ -316,13 +317,6 @@ code {
   font-weight: 500;
 }
 
-/* 메뉴 항목 row — 순서 화살표 컬럼 추가 */
-.menu-item-row {
-  grid-template-columns: auto 1.4fr 0.8fr 0.8fr 0.8fr auto;
-}
-.menu-items-head {
-  grid-template-columns: auto 1.4fr 0.8fr 0.8fr 0.8fr auto;
-}
 
 .fields {
   display: grid;
@@ -377,6 +371,7 @@ code {
   border: 1px solid var(--line-soft);
   border-radius: 10px;
   padding: 14px 16px;
+  min-width: 0;
 }
 .menu-section-head {
   display: flex;
@@ -407,11 +402,12 @@ code {
 }
 .menu-item-row {
   display: grid;
-  grid-template-columns: 1.4fr 0.8fr 0.8fr 0.8fr auto;
+  grid-template-columns: auto minmax(90px, 1.3fr) minmax(60px, 0.8fr) minmax(60px, 0.8fr) minmax(60px, 0.8fr) auto;
   gap: 8px;
   align-items: center;
 }
 .menu-item-row input {
+  min-width: 0;            /* grid 칸 안에서 넘치지 않게 */
   padding: 7px 10px;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -419,10 +415,10 @@ code {
   font-size: .92rem;
 }
 .menu-item-row input::placeholder { color: rgba(0,0,0,0.3); }
-.menu-item-row .btn-del { padding: 5px 9px; font-size: .76rem; }
+.menu-item-row .btn-del { padding: 5px 9px; font-size: .76rem; white-space: nowrap; }
 .menu-items-head {
   display: grid;
-  grid-template-columns: 1.4fr 0.8fr 0.8fr 0.8fr auto;
+  grid-template-columns: auto minmax(90px, 1.3fr) minmax(60px, 0.8fr) minmax(60px, 0.8fr) minmax(60px, 0.8fr) auto;
   gap: 8px;
   font-size: .74rem;
   color: var(--ink-soft);
@@ -479,11 +475,19 @@ code {
 /* ===== 반응형 ===== */
 @media (max-width: 640px) {
   .admin-header { flex-direction: column; align-items: flex-start; }
+  .admin-actions { width: 100%; }
   .fields { grid-template-columns: 1fr; }
-  .menu-item-row,
-  .menu-items-head {
-    grid-template-columns: 1fr 1fr;
-  }
-  .menu-item-row .btn-del { grid-column: 2; justify-self: end; }
+  /* 메뉴 항목: 좁은 화면에선 카드처럼 세로 배치 */
   .menu-items-head { display: none; }
+  .menu-item-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 10px;
+    padding: 12px;
+    border: 1px solid var(--line-soft, #ece1c8);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .menu-item-row .order-controls { grid-column: 1 / -1; justify-self: start; }
+  .menu-item-row > input:nth-of-type(1) { grid-column: 1 / -1; }  /* 메뉴명 한 줄 전체 */
+  .menu-item-row .btn-del { grid-column: 1 / -1; justify-self: stretch; text-align: center; }
 }

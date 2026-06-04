@@ -6,13 +6,26 @@
 (function () {
   "use strict";
 
-  /* ----- 비밀번호 (필요하면 여기를 바꾸세요) ----- */
+  /* ============================================================
+     [ 비밀번호 변경 방법 ]
+     1) 아래 ADMIN_PASSWORD 값을 새 비밀번호로 바꿉니다.
+     2) Vercel 환경변수 ADMIN_SAVE_PASSWORD 도 같은 값으로 바꿉니다.
+        (Vercel → 프로젝트 → Settings → Environment Variables)
+     3) 변경 후 재배포하면 적용됩니다.
+     ※ 비밀번호는 외부에 노출되지 않도록 관리해 주세요.
+     ============================================================ */
   var ADMIN_PASSWORD = "kkotshin";
 
   /* ===== 비밀번호 게이트 ===== */
   var gate = document.getElementById("gate");
   var admin = document.getElementById("admin");
   var SESSION_KEY = "kkotshin-admin-session";
+  var SESSION_PW_KEY = "kkotshin-admin-pw";
+
+  // 저장 요청에 사용할 비밀번호 (입력한 값 우선, 없으면 기본값)
+  function currentPassword() {
+    return sessionStorage.getItem(SESSION_PW_KEY) || ADMIN_PASSWORD;
+  }
 
   function unlock() {
     gate.style.display = "none";
@@ -28,6 +41,7 @@
       var pw = document.getElementById("gatePw").value;
       if (pw === ADMIN_PASSWORD) {
         sessionStorage.setItem(SESSION_KEY, "1");
+        sessionStorage.setItem(SESSION_PW_KEY, pw);
         unlock();
       } else {
         toast("비밀번호가 올바르지 않습니다.");
@@ -481,7 +495,7 @@
     fetch("/api/save-data", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password: ADMIN_PASSWORD, dataJs: js })
+      body: JSON.stringify({ password: currentPassword(), dataJs: js })
     })
       .then(function (res) {
         return res.json().catch(function () { return {}; }).then(function (data) {
