@@ -451,7 +451,11 @@ code {
   margin-top: 14px;
   color: var(--ink-soft);
   font-size: .9rem;
+  line-height: 1.6;
 }
+.admin-footer .btn-ghost { margin-left: 10px; }
+.btn-primary:disabled,
+.btn-primary.big:disabled { opacity: 0.55; cursor: progress; }
 
 /* ===== 토스트 ===== */
 .toast {

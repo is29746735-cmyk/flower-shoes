@@ -130,6 +130,11 @@
     document.getElementById("exportBtn").addEventListener("click", exportData);
     document.getElementById("exportBtn2").addEventListener("click", exportData);
 
+    var saveBtn = document.getElementById("saveBtn");
+    var saveBtn2 = document.getElementById("saveBtn2");
+    if (saveBtn) saveBtn.addEventListener("click", saveToServer);
+    if (saveBtn2) saveBtn2.addEventListener("click", saveToServer);
+
     var resetBtn = document.getElementById("resetBtn");
     if (resetBtn) {
       resetBtn.addEventListener("click", function () {
@@ -449,6 +454,54 @@
     clearDraft();
     updateDirtyBadge();
     toast("data.js 파일이 다운로드되었습니다. 카페 폴더의 기존 data.js 와 교체하세요.");
+  }
+
+  /* ===== 서버에 바로 저장 (GitHub 커밋 → Vercel 자동 배포) ===== */
+  function setSaveButtons(disabled, label) {
+    ["saveBtn", "saveBtn2"].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (!b) return;
+      b.disabled = disabled;
+      if (label) b.textContent = label;
+    });
+  }
+  function resetSaveButtons() {
+    var b1 = document.getElementById("saveBtn");
+    var b2 = document.getElementById("saveBtn2");
+    if (b1) { b1.disabled = false; b1.textContent = "저장 (사이트 반영)"; }
+    if (b2) { b2.disabled = false; b2.textContent = "저장 (사이트에 바로 반영)"; }
+  }
+  function saveToServer() {
+    var js = buildDataJs(state);
+    setSaveButtons(true, "저장 중…");
+    toast("저장 중입니다… 잠시만 기다려 주세요.");
+
+    fetch("/api/save-data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: ADMIN_PASSWORD, dataJs: js })
+    })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          return { ok: res.ok, status: res.status, data: data };
+        });
+      })
+      .then(function (r) {
+        resetSaveButtons();
+        if (r.ok && r.data && r.data.ok) {
+          initialJSON = JSON.stringify(state);
+          clearDraft();
+          updateDirtyBadge();
+          toast("✓ 저장되었습니다. 약 1분 뒤 홈페이지에 반영됩니다.");
+        } else {
+          var msg = (r.data && r.data.error) ? r.data.error : ("저장 실패 (코드 " + r.status + ")");
+          toast("저장 실패: " + msg);
+        }
+      })
+      .catch(function () {
+        resetSaveButtons();
+        toast("저장 실패: 인터넷 연결을 확인해 주세요. (저장 기능은 실제 홈페이지 주소에서만 동작합니다)");
+      });
   }
 
   // 깔끔한 JS 텍스트로 직렬화 (사람이 봐도 읽기 좋게)
