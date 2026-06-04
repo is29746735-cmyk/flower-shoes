@@ -43,10 +43,6 @@ module.exports = async function handler(req, res) {
     res.status(401).json({ error: "비밀번호가 올바르지 않습니다." });
     return;
   }
-  if (!dataJs || typeof dataJs !== "string") {
-    res.status(400).json({ error: "저장할 데이터가 비어 있습니다." });
-    return;
-  }
 
   var apiBase = "https://api.github.com/repos/" + REPO + "/contents/" + FILE;
   var ghHeaders = {
@@ -54,6 +50,11 @@ module.exports = async function handler(req, res) {
     "User-Agent": "kkotshin-admin",
     "Accept": "application/vnd.github+json"
   };
+
+  if (!dataJs || typeof dataJs !== "string") {
+    res.status(400).json({ error: "저장할 데이터가 비어 있습니다." });
+    return;
+  }
 
   try {
     // 1) 현재 파일 SHA 조회 (커밋에 필요)
@@ -85,7 +86,12 @@ module.exports = async function handler(req, res) {
 
     if (!putRes.ok) {
       var pe = await putRes.json().catch(function () { return {}; });
-      res.status(502).json({ error: "GitHub 저장 실패", detail: (pe && pe.message) || "알 수 없는 오류" });
+      var reason = (pe && pe.message) || "알 수 없는 오류";
+      var hint = "";
+      if (putRes.status === 403 || putRes.status === 404) {
+        hint = " (토큰의 Contents 쓰기 권한 또는 저장소 접근을 확인하세요)";
+      }
+      res.status(502).json({ error: "GitHub 저장 실패: " + reason + hint, ghStatus: putRes.status });
       return;
     }
 
