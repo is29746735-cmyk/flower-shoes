@@ -376,10 +376,15 @@
         onclick: function () { window.__menuCollapsed[key] = !window.__menuCollapsed[key]; renderMenu(); }
       }, [collapsed ? "▶" : "▼"]);
 
+      var nameInput = input(sec.name, function (v) { sec.name = v; }, { placeholder: "한글 이름" });
+      nameInput.className = "sec-name";
+      var enInput = input(sec.en, function (v) { sec.en = v; }, { placeholder: "English name" });
+      enInput.className = "sec-en";
+
       var hdr = el("div", { class: "menu-section-head" }, [
         toggleBtn,
-        input(sec.name, function (v) { sec.name = v; }, { placeholder: "한글 이름" }).tap(function (x) { x.className = "sec-name"; }),
-        input(sec.en, function (v) { sec.en = v; }, { placeholder: "English name" }).tap(function (x) { x.className = "sec-en"; }),
+        nameInput,
+        enInput,
         (function () {
           var lbl = el("label", { class: "chk" });
           var chk = el("input", { type: "checkbox" });
@@ -433,9 +438,6 @@
       box.appendChild(section);
     });
   }
-
-  // 작은 헬퍼: 노드 생성 후 콜백
-  HTMLElement.prototype.tap = function (fn) { fn(this); return this; };
 
   /* ===== data.js 생성 / 다운로드 ===== */
   function exportData() {
