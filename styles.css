@@ -738,22 +738,30 @@ h1, h2, h3 {
 .rsv-order-tip {
   display: flex;
   align-items: flex-start;
-  gap: 9px;
+  gap: 10px;
   margin-top: 6px;
-  padding: 13px 15px;
+  padding: 14px 16px;
   background: var(--bg-soft);
   border: 1px solid var(--divider);
-  font-size: .86rem;
-  line-height: 1.55;
+  font-size: .88rem;
+  line-height: 1.65;
   color: var(--ink-soft);
   letter-spacing: -0.012em;
+  word-break: keep-all;       /* 한글 단어 중간에서 안 끊기게 */
+  overflow-wrap: break-word;
 }
 .rsv-order-tip svg {
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-top: 3px;
   color: var(--accent);
 }
-.rsv-order-tip strong { color: var(--ink); font-weight: 700; }
+.rsv-order-text { display: block; }
+.rsv-order-tip strong {
+  display: block;
+  color: var(--ink);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
 
 @media (max-width: 480px) {
   .rsv-row { grid-template-columns: 1fr; }
