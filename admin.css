@@ -485,7 +485,7 @@ code {
   font-size: .9rem;
   line-height: 1.6;
 }
-.admin-footer .btn-ghost { margin-left: 10px; }
+.admin-footer .btn-ghost { margin-left: 10px; display: inline-block; text-decoration: none; }
 .btn-primary:disabled,
 .btn-primary.big:disabled { opacity: 0.55; cursor: progress; }
 
