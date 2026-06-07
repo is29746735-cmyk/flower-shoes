@@ -290,6 +290,37 @@ code {
 }
 .image-empty.image-error { color: var(--danger); }
 
+/* 사진 드래그&드롭 업로드 영역 */
+.image-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 18px 14px;
+  border: 2px dashed var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink-soft);
+  font-size: .9rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease;
+}
+.image-dropzone:hover { border-color: var(--wood); background: #fff; }
+.image-dropzone.dragover { border-color: var(--wood); background: rgba(176,134,88,0.1); }
+.image-dropzone.uploading { opacity: 0.6; pointer-events: none; }
+.image-dropzone .dz-icon { font-size: 1.3rem; color: var(--wood); }
+.image-dropzone .dz-text b { color: var(--brown); }
+.image-status {
+  font-size: .84rem;
+  color: var(--ink-soft);
+  min-height: 1.1em;
+  margin: 2px 0 0;
+}
+.image-status.ok { color: #2e6a3a; font-weight: 500; }
+.image-status.err { color: var(--danger); }
+
 /* 메뉴 섹션 — 토글, 접힘, 메타 */
 .menu-toggle {
   background: transparent;

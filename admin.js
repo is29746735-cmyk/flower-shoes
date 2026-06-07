@@ -242,6 +242,54 @@
   }
 
   // 이미지 미리보기 (src 입력 시 자동 표시)
+  // 브라우저에서 이미지를 WebP로 압축 (긴 쪽 1600px, 품질 0.82)
+  function compressImage(file, maxSize, quality) {
+    return new Promise(function (resolve, reject) {
+      var img = new Image();
+      var url = URL.createObjectURL(file);
+      img.onload = function () {
+        URL.revokeObjectURL(url);
+        var w = img.naturalWidth, h = img.naturalHeight;
+        if (!w || !h) { reject(new Error("이미지를 읽을 수 없습니다")); return; }
+        var scale = Math.min(1, maxSize / Math.max(w, h));
+        var cw = Math.round(w * scale), ch = Math.round(h * scale);
+        var canvas = document.createElement("canvas");
+        canvas.width = cw; canvas.height = ch;
+        canvas.getContext("2d").drawImage(img, 0, 0, cw, ch);
+        canvas.toBlob(function (blob) {
+          if (!blob) { reject(new Error("변환 실패")); return; }
+          var reader = new FileReader();
+          reader.onload = function () { resolve(String(reader.result).split(",")[1]); };
+          reader.onerror = function () { reject(new Error("읽기 실패")); };
+          reader.readAsDataURL(blob);
+        }, "image/webp", quality || 0.82);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("이미지 형식을 지원하지 않습니다 (JPG·PNG 권장)")); };
+      img.src = url;
+    });
+  }
+
+  // 압축 후 서버로 업로드 → 저장된 경로 반환
+  function uploadImage(file) {
+    return compressImage(file, 1600, 0.82).then(function (base64) {
+      var base = (file.name || "photo").replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9._-]/g, "_") || "photo";
+      var filename = base + "-" + nowStamp() + ".webp";
+      return fetch("/api/upload-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: currentPassword(), filename: filename, contentBase64: base64 })
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (d) { return { ok: res.ok, data: d }; });
+      });
+    });
+  }
+
+  function nowStamp() {
+    var d = new Date();
+    function p(n) { return String(n).padStart(2, "0"); }
+    return "" + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + p(d.getHours()) + p(d.getMinutes()) + p(d.getSeconds());
+  }
+
   function imageField(currentSrc, onChange, hint) {
     var wrap = el("div", { class: "image-field" });
     var preview = el("div", { class: "image-preview" });
@@ -257,12 +305,58 @@
       };
       preview.appendChild(img);
     }
-    var inp = input(currentSrc, function (v) { onChange(v); updatePreview(v); }, {
-      placeholder: hint || "예: images/photo.webp"
+
+    // 드래그&드롭 / 클릭 업로드 영역
+    var dz = el("div", { class: "image-dropzone" });
+    dz.innerHTML = '<span class="dz-icon">⬆</span><span class="dz-text">사진을 끌어다 놓거나 <b>클릭해서 선택</b></span>';
+    var fileInput = el("input", { type: "file", accept: "image/*" });
+    fileInput.style.display = "none";
+    var status = el("p", { class: "image-status" });
+    var pathInput = input(currentSrc, function (v) { onChange(v); updatePreview(v); }, {
+      placeholder: hint || "또는 경로 직접 입력 (예: images/photo.webp)"
     });
+
+    function handleFile(file) {
+      if (!file || !/^image\//.test(file.type)) {
+        status.textContent = "이미지 파일만 올릴 수 있어요."; status.className = "image-status err"; return;
+      }
+      status.textContent = "업로드 중… 잠시만 기다려 주세요"; status.className = "image-status";
+      dz.classList.add("uploading");
+      uploadImage(file).then(function (r) {
+        dz.classList.remove("uploading");
+        if (r.ok && r.data && r.data.ok) {
+          onChange(r.data.path);
+          updatePreview(r.data.path);
+          pathInput.value = r.data.path;
+          status.textContent = "✓ 업로드 완료";
+          status.className = "image-status ok";
+          saveDraft();
+        } else {
+          status.textContent = "업로드 실패: " + ((r.data && r.data.error) || "다시 시도해 주세요");
+          status.className = "image-status err";
+        }
+      }).catch(function (e) {
+        dz.classList.remove("uploading");
+        status.textContent = "업로드 실패: " + (e.message || "오류");
+        status.className = "image-status err";
+      });
+    }
+
+    dz.addEventListener("click", function () { fileInput.click(); });
+    fileInput.addEventListener("change", function (e) { if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]); });
+    dz.addEventListener("dragover", function (e) { e.preventDefault(); dz.classList.add("dragover"); });
+    dz.addEventListener("dragleave", function () { dz.classList.remove("dragover"); });
+    dz.addEventListener("drop", function (e) {
+      e.preventDefault(); dz.classList.remove("dragover");
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+    });
+
     updatePreview(currentSrc);
     wrap.appendChild(preview);
-    wrap.appendChild(inp);
+    wrap.appendChild(dz);
+    wrap.appendChild(fileInput);
+    wrap.appendChild(status);
+    wrap.appendChild(pathInput);
     return wrap;
   }
 
