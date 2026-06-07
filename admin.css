@@ -386,9 +386,11 @@ code {
   border-radius: 6px;
   font-family: inherit;
   font-size: .95rem;
+  box-sizing: border-box;
 }
-.menu-section-head .sec-name { flex: 0 0 130px; font-weight: 700; }
-.menu-section-head .sec-en { flex: 0 0 160px; color: var(--ink-soft); }
+/* min-width:0 으로 input 기본폭(약 255px)보다 줄어들 수 있게 → 카드 안에 항상 맞음 */
+.menu-section-head .sec-name { flex: 1 1 120px; min-width: 0; font-weight: 700; }
+.menu-section-head .sec-en  { flex: 1 1 140px; min-width: 0; color: var(--ink-soft); }
 .menu-section-head label.chk {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: .85rem; color: var(--ink-soft); cursor: pointer;
@@ -477,6 +479,9 @@ code {
   .admin-header { flex-direction: column; align-items: flex-start; }
   .admin-actions { width: 100%; }
   .fields { grid-template-columns: 1fr; }
+  /* 메뉴 카테고리 제목/영문 입력칸: 좁은 화면에선 각각 한 줄 전체 */
+  .menu-section-head .sec-name,
+  .menu-section-head .sec-en { flex: 1 1 100%; }
   /* 메뉴 항목: 좁은 화면에선 카드처럼 세로 배치 */
   .menu-items-head { display: none; }
   .menu-item-row {

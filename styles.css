@@ -763,6 +763,12 @@ h1, h2, h3 {
   margin-bottom: 2px;
 }
 
+/* 모바일: 예약 카드 내부 패딩 축소 → 다른 섹션과 콘텐츠 정렬 맞춤 */
+@media (max-width: 640px) {
+  .rsv-call,
+  .rsv-form { padding: 26px 20px; }
+  .rsv-call-btn { width: 100%; justify-content: center; }
+}
 @media (max-width: 480px) {
   .rsv-row { grid-template-columns: 1fr; }
 }
