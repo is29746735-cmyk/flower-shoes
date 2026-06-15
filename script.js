@@ -312,13 +312,18 @@
   if (rsvForm) {
     var pad2 = function (n) { return String(n).padStart(2, "0"); };
 
-    /* 방문 일자: 오늘 ~ 3개월 뒤만 (페이지 열 때 계산 → 매일 자동으로 굴러감) */
-    var dateInput = document.getElementById("rsvDate");
-    if (dateInput) {
-      var today = new Date();
-      var fmt = function (d) { return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); };
-      dateInput.min = fmt(today);
-      dateInput.max = fmt(new Date(today.getFullYear(), today.getMonth() + 3, today.getDate()));
+    /* 방문 일자: 오늘 ~ 3개월 뒤만 드롭다운으로 (무한 스크롤 없음, 열 때 계산 → 매일 자동 갱신) */
+    var dateSel = document.getElementById("rsvDate");
+    if (dateSel) {
+      var DOW = ["일", "월", "화", "수", "목", "금", "토"];
+      var start = new Date(); start.setHours(0, 0, 0, 0);
+      var end = new Date(start.getFullYear(), start.getMonth() + 3, start.getDate());
+      var dhtml = '<option value="" disabled selected>날짜를 선택하세요</option>';
+      for (var dd = new Date(start); dd <= end; dd.setDate(dd.getDate() + 1)) {
+        var dv = dd.getFullYear() + "-" + pad2(dd.getMonth() + 1) + "-" + pad2(dd.getDate());
+        dhtml += '<option value="' + dv + '">' + (dd.getMonth() + 1) + '월 ' + dd.getDate() + '일 (' + DOW[dd.getDay()] + ')</option>';
+      }
+      dateSel.innerHTML = dhtml;
     }
 
     /* 방문 시간: 오전 10:00 ~ 오후 8:30. 시/분 드롭다운(무한 휠 없음) */
@@ -339,7 +344,7 @@
       var max = (hourSel && hourSel.value === pad2(CLOSE_HOUR)) ? CLOSE_MIN : 59;
       var keep = minSel.value;
       var html = '<option value="" disabled' + (keep === "" ? " selected" : "") + '>분</option>';
-      for (var m = 0; m <= max; m++) {
+      for (var m = 0; m <= max; m += 5) {
         var v = pad2(m);
         html += '<option value="' + v + '"' + (v === keep ? " selected" : "") + '>' + v + '분</option>';
       }

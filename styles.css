@@ -715,6 +715,8 @@ h1, h2, h3 {
   font-family: inherit;
 }
 .rsv-form select {
+  width: 100%;
+  box-sizing: border-box;
   padding: 12px 14px;
   border: 1px solid var(--divider);
   border-radius: 0;
@@ -727,8 +729,8 @@ h1, h2, h3 {
 }
 .rsv-form select:focus { outline: none; border-color: var(--ink); }
 .rsv-time { display: flex; align-items: center; gap: 8px; }
-.rsv-time-sel { flex: 1 1 auto; min-width: 0; }
-.rsv-time-colon { color: var(--ink-soft); font-weight: 600; }
+.rsv-time-sel { flex: 1 1 0; min-width: 0; }
+.rsv-time-colon { color: var(--ink-soft); font-weight: 600; flex: 0 0 auto; }
 .rsv-actions {
   display: flex;
   gap: 10px;

@@ -272,18 +272,16 @@
             <input type="number" name="people" min="1" max="50" value="2" required />
           </label>
         </div>
-        <div class="rsv-row">
-          <label>방문 일자 *
-            <input type="date" name="date" id="rsvDate" required />
-          </label>
-          <label>방문 시간 *
-            <span class="rsv-time">
-              <select name="hour" id="rsvHour" class="rsv-time-sel" required aria-label="방문 시"></select>
-              <span class="rsv-time-colon">:</span>
-              <select name="minute" id="rsvMinute" class="rsv-time-sel" required aria-label="방문 분"></select>
-            </span>
-          </label>
-        </div>
+        <label>방문 일자 *
+          <select name="date" id="rsvDate" class="rsv-date-sel" required aria-label="방문 일자"></select>
+        </label>
+        <label>방문 시간 *
+          <span class="rsv-time">
+            <select name="hour" id="rsvHour" class="rsv-time-sel" required aria-label="방문 시"></select>
+            <span class="rsv-time-colon">:</span>
+            <select name="minute" id="rsvMinute" class="rsv-time-sel" required aria-label="방문 분"></select>
+          </span>
+        </label>
         <label>연락처 *
           <input type="tel" name="phone" required placeholder="010-0000-0000" pattern="[0-9\-]{9,13}" />
         </label>
