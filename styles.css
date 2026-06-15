@@ -644,8 +644,9 @@ h1, h2, h3 {
   font-weight: 700;
   padding: 18px 28px;
   letter-spacing: -0.01em;
+  cursor: default;
 }
-.rsv-call-btn:hover { background: #f3f1ec !important; color: var(--ink) !important; }
+.rsv-call-btn:hover { background: #fff !important; color: var(--ink) !important; }
 .rsv-call-btn::after { content: ""; }
 .rsv-info {
   list-style: none;
