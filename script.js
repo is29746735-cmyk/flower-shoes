@@ -307,60 +307,112 @@
     });
   }
 
-  /* ===== 예약 폼 제출 ===== */
+  /* ===== 예약: 날짜·시간 선택기 + 폼 제출 ===== */
   var rsvForm = document.getElementById("rsvForm");
   if (rsvForm) {
+    var pad2 = function (n) { return String(n).padStart(2, "0"); };
+
+    /* 방문 일자: 오늘 ~ 3개월 뒤만 (페이지 열 때 계산 → 매일 자동으로 굴러감) */
+    var dateInput = document.getElementById("rsvDate");
+    if (dateInput) {
+      var today = new Date();
+      var fmt = function (d) { return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); };
+      dateInput.min = fmt(today);
+      dateInput.max = fmt(new Date(today.getFullYear(), today.getMonth() + 3, today.getDate()));
+    }
+
+    /* 방문 시간: 오전 10:00 ~ 오후 8:30. 시/분 드롭다운(무한 휠 없음) */
+    var OPEN_HOUR = 10, CLOSE_HOUR = 20, CLOSE_MIN = 30;
+    var hourSel = document.getElementById("rsvHour");
+    var minSel = document.getElementById("rsvMinute");
+    function fillHours() {
+      if (!hourSel) return;
+      var html = '<option value="" disabled selected>시</option>';
+      for (var h = OPEN_HOUR; h <= CLOSE_HOUR; h++) {
+        var label = (h < 12 ? "오전 " + h : (h === 12 ? "오후 12" : "오후 " + (h - 12))) + "시";
+        html += '<option value="' + pad2(h) + '">' + label + '</option>';
+      }
+      hourSel.innerHTML = html;
+    }
+    function fillMinutes() {
+      if (!minSel) return;
+      var max = (hourSel && hourSel.value === pad2(CLOSE_HOUR)) ? CLOSE_MIN : 59;
+      var keep = minSel.value;
+      var html = '<option value="" disabled' + (keep === "" ? " selected" : "") + '>분</option>';
+      for (var m = 0; m <= max; m++) {
+        var v = pad2(m);
+        html += '<option value="' + v + '"' + (v === keep ? " selected" : "") + '>' + v + '분</option>';
+      }
+      minSel.innerHTML = html;
+      if (keep !== "" && Number(keep) > max) minSel.value = ""; // 20시 선택 시 30분 초과값 해제
+    }
+    if (hourSel && minSel) {
+      fillHours();
+      fillMinutes();
+      hourSel.addEventListener("change", fillMinutes);
+    }
+
+    /* 폼 제출: 서버(이메일)로 전송, 실패 시 복사 안내로 폴백 */
     rsvForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      var fd = new FormData(rsvForm);
       var note = document.getElementById("rsvFormNote");
+      var btn = rsvForm.querySelector('button[type="submit"]');
+      function setNote(t, cls) { if (note) { note.textContent = t; note.className = "rsv-note " + (cls || ""); } }
+
+      var fd = new FormData(rsvForm);
+      var name = (fd.get("name") || "").toString().trim();
+      var people = (fd.get("people") || "").toString().trim();
+      var date = (fd.get("date") || "").toString().trim();
+      var hh = (fd.get("hour") || "").toString();
+      var mm = (fd.get("minute") || "").toString();
+      var time = (hh && mm) ? (hh + ":" + mm) : "";
+      var phone = (fd.get("phone") || "").toString().trim();
       var noteText = (fd.get("notes") || "").toString().trim();
+
+      if (!time) { setNote("방문 시간을 선택해 주세요.", "err"); return; }
+
       var msg =
         "[꽃신 예약 문의]\n" +
-        "성함: " + fd.get("name") + "\n" +
-        "인원: " + fd.get("people") + "명\n" +
-        "일자: " + fd.get("date") + "\n" +
-        "시간: " + fd.get("time") + "\n" +
-        "연락처: " + fd.get("phone") +
+        "성함: " + name + "\n" +
+        "인원: " + people + "명\n" +
+        "일자: " + date + "\n" +
+        "시간: " + time + "\n" +
+        "연락처: " + phone +
         (noteText ? "\n요청: " + noteText : "");
 
-      var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-      var phone = "0334354885";
-
-      if (isMobile) {
-        // 모바일: SMS 앱 열기
-        var sep = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? "&" : "?";
-        var url = "sms:" + phone + sep + "body=" + encodeURIComponent(msg);
-        window.location.href = url;
-        if (note) { note.textContent = "메시지 앱이 열리면 보내기 버튼을 눌러 주세요."; note.className = "rsv-note ok"; }
-      } else {
-        // PC: 클립보드 복사 + 안내
-        var done = function () {
-          if (note) {
-            note.textContent = "✓ 예약 내용이 복사되었습니다. 033-435-4885 로 전화하시거나 카톡으로 붙여넣어 보내주세요.";
-            note.className = "rsv-note ok";
-          }
-        };
-        var fail = function () {
-          if (note) {
-            note.textContent = "복사가 안 됐어요. 033-435-4885 로 직접 전화 주시거나 카톡으로 문의해 주세요.";
-            note.className = "rsv-note err";
-          }
-        };
+      // 서버 미설정/오류 시: 예약 내용 복사 + 전화/카톡 안내
+      function fallback() {
+        function done() { setNote("✓ 예약 내용이 복사되었습니다. 033-435-4885 로 전화하시거나 카톡으로 붙여넣어 보내주세요.", "ok"); }
+        function fail() { setNote("033-435-4885 로 전화 주시거나 카톡으로 문의해 주세요.", "err"); }
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(msg).then(done, fail);
         } else {
-          // 폴백 — textarea 만들어 복사
           var ta = document.createElement("textarea");
-          ta.value = msg;
-          ta.style.position = "fixed";
-          ta.style.opacity = "0";
-          document.body.appendChild(ta);
-          ta.select();
+          ta.value = msg; ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select();
           try { document.execCommand("copy"); done(); } catch (err) { fail(); }
           document.body.removeChild(ta);
         }
       }
+
+      setNote("예약 문의를 보내는 중…", "");
+      if (btn) btn.disabled = true;
+      fetch("/api/reserve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name, people: people, date: date, time: time, phone: phone, notes: noteText })
+      }).then(function (r) {
+        if (!r.ok) throw new Error("status " + r.status);
+        return r.json();
+      }).then(function () {
+        setNote("✓ 예약 문의가 접수되었습니다. 확인 후 연락드릴게요!", "ok");
+        rsvForm.reset();
+        if (hourSel && minSel) { fillHours(); fillMinutes(); }
+      }).catch(function () {
+        fallback(); // 서버가 아직 설정 안 됐거나 오류 → 안전하게 복사 안내
+      }).finally(function () {
+        if (btn) btn.disabled = false;
+      });
     });
   }
 

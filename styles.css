@@ -714,6 +714,21 @@ h1, h2, h3 {
   line-height: 1.5;
   font-family: inherit;
 }
+.rsv-form select {
+  padding: 12px 14px;
+  border: 1px solid var(--divider);
+  border-radius: 0;
+  font-family: inherit;
+  font-size: .96rem;
+  color: var(--ink);
+  background: #fff;
+  transition: border-color .15s ease;
+  cursor: pointer;
+}
+.rsv-form select:focus { outline: none; border-color: var(--ink); }
+.rsv-time { display: flex; align-items: center; gap: 8px; }
+.rsv-time-sel { flex: 1 1 auto; min-width: 0; }
+.rsv-time-colon { color: var(--ink-soft); font-weight: 600; }
 .rsv-actions {
   display: flex;
   gap: 10px;

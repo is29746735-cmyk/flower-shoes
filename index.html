@@ -274,10 +274,14 @@
         </div>
         <div class="rsv-row">
           <label>방문 일자 *
-            <input type="date" name="date" required />
+            <input type="date" name="date" id="rsvDate" required />
           </label>
           <label>방문 시간 *
-            <input type="time" name="time" required />
+            <span class="rsv-time">
+              <select name="hour" id="rsvHour" class="rsv-time-sel" required aria-label="방문 시"></select>
+              <span class="rsv-time-colon">:</span>
+              <select name="minute" id="rsvMinute" class="rsv-time-sel" required aria-label="방문 분"></select>
+            </span>
           </label>
         </div>
         <label>연락처 *
